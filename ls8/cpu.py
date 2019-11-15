@@ -1,6 +1,7 @@
 """CPU functionality."""
 
 import sys
+import os
 
 
 class CPU:
@@ -48,12 +49,12 @@ class CPU:
             self.reg[reg_a] += self.reg[reg_b]
 
         elif op == "CMP": 
-            if reg_a < reg_b:
+            if self.reg[reg_a] < self.reg[reg_b]:
                 self.fl = 0b00000100
-            elif reg_a > reg_b:
+            elif self.reg[reg_a] > self.reg[reg_b]:
                 self.fl = 0b00000010
-            elif reg_a == reg_b:
-                self.fl = 0b0000001
+            elif self.reg[reg_a] == self.reg[reg_b]:
+                self.fl = 0b00000001
 
         elif op == "MUL": 
             self.reg[reg_a] *= self.reg[reg_b]
@@ -106,7 +107,6 @@ class CPU:
 
         while running:
             IR = self.ram_read(self.pc)
-            print(f"{IR:08b}")
             operand_a = self.ram_read(self.pc + 1)
             operand_b = self.ram_read(self.pc + 2)
 
