@@ -96,6 +96,7 @@ class CPU:
         RET = 0b00010001
         CMP = 0b10100111
         JMP = 0b01010100
+        JEQ = 0b01010101
 
         running = True
 
@@ -146,6 +147,12 @@ class CPU:
 
             elif IR == JMP:
                 self.pc = self.reg[operand_a]
+
+            elif == JEQ:
+                if self.fl == 0b0000001:
+                    self.pc = self.reg[operand_a]
+                else:
+                    self.pc += 2
 
             elif IR == HLT:
                 running = False
