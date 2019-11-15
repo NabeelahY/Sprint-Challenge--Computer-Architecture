@@ -142,6 +142,10 @@ class CPU:
 
             elif IR == CMP:
                 self.alu('CMP', operand_a, operand_b)
+                self.pc += 3
+
+            elif IR == JMP:
+                self.pc = self.reg[operand_a]
 
             elif IR == HLT:
                 running = False
