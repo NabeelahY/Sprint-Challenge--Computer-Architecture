@@ -54,6 +54,9 @@ class CPU:
                 self.fl = 0b00000010
             elif reg_a == reg_b:
                 self.fl = 0b0000001
+
+        elif op == "MUL": 
+            self.reg[reg_a] *= self.reg[reg_b]
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -97,11 +100,13 @@ class CPU:
         CMP = 0b10100111
         JMP = 0b01010100
         JEQ = 0b01010101
+        JNE = 0b01010110
 
         running = True
 
         while running:
             IR = self.ram_read(self.pc)
+            print(f"{IR:08b}")
             operand_a = self.ram_read(self.pc + 1)
             operand_b = self.ram_read(self.pc + 2)
 
@@ -114,7 +119,7 @@ class CPU:
                 self.pc += 2
 
             elif IR == MUL:
-                self.reg[operand_a] *= self.reg[operand_b]
+                self.alu('MUL', operand_a, operand_b)
                 self.pc += 3
 
             elif IR == PUSH:
@@ -148,8 +153,13 @@ class CPU:
             elif IR == JMP:
                 self.pc = self.reg[operand_a]
 
-            elif == JEQ:
+            elif IR == JEQ:
                 if self.fl == 0b0000001:
+                    self.pc = self.reg[operand_a]
+                else:
+                    self.pc += 2
+            elif IR == JNE:
+                if self.fl == 0b00000010 or self.fl == 0b00000100:
                     self.pc = self.reg[operand_a]
                 else:
                     self.pc += 2
